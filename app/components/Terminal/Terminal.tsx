@@ -264,10 +264,10 @@ export default function Terminal({ onBannerComplete, skipIntro = false }: Termin
         scale: showFullTerminal ? 1 : 0.95,
       }}
       transition={{ duration: 1, ease: 'easeInOut' }}
-      className="w-full max-w-full p-4 bg-[#131821] border-[2px] border-[#273344] text-slate-200 rounded-xl font-mono text-md"
+      className="w-full max-w-full p-3 sm:p-4 bg-[#131821] border-[2px] border-[#273344] text-slate-200 rounded-xl font-mono text-[11px] sm:text-sm md:text-base"
       onClick={focusInput}
     >
-      <div className="bg-[#131821] text-slate-200 font-mono text-md p-4">
+      <div className="bg-[#131821] text-slate-200 font-mono text-[11px] sm:text-sm md:text-base p-3 sm:p-4">
         <div className="flex items-center mb-3 space-x-2">
           <div className="w-3 h-3 bg-[#FF6059] rounded-full"></div>
           <div className="w-3 h-3 bg-[#FFBE2F] rounded-full"></div>
