@@ -36,9 +36,9 @@ export default function About() {
             transition={{ delay: 0.2 }}
             className="space-y-6"
           >
-            <h3 className="text-4xl font-bold text-white bg-gradient-to-r from-white to-[#10B981] bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-white bg-gradient-to-r from-white to-[#10B981] bg-clip-text text-transparent">
               {item.heading}
-            </h3>
+            </h1>
             <div className="text-lg text-slate-300 leading-relaxed whitespace-pre-line">
               {item.description}
             </div>

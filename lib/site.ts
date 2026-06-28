@@ -1,16 +1,32 @@
 const DEFAULT_LOCAL_URL = "http://localhost:3000";
+const PROD_FALLBACK_URL = "https://syahrialdanu.my.id";
+
+function isValidHttpUrl(value: string) {
+  try {
+    const u = new URL(value);
+    return u.protocol === "http:" || u.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 function normalizeSiteUrl(url?: string) {
-  if (!url) return DEFAULT_LOCAL_URL;
+  const fallback =
+    process.env.NODE_ENV === "production" ? PROD_FALLBACK_URL : DEFAULT_LOCAL_URL;
+  if (!url) return fallback;
 
-  const trimmedUrl = url.trim().replace(/\/+$/, "");
-  if (!trimmedUrl) return DEFAULT_LOCAL_URL;
+  // strip surrounding quotes/whitespace and trailing slashes (common env mistakes)
+  const trimmedUrl = url
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .replace(/\/+$/, "");
+  if (!trimmedUrl) return fallback;
 
-  if (trimmedUrl.startsWith("http://") || trimmedUrl.startsWith("https://")) {
-    return trimmedUrl;
-  }
+  const candidate = /^https?:\/\//.test(trimmedUrl)
+    ? trimmedUrl
+    : `https://${trimmedUrl}`;
 
-  return `https://${trimmedUrl}`;
+  return isValidHttpUrl(candidate) ? candidate : fallback;
 }
 
 export function getSiteUrl() {
