@@ -299,7 +299,7 @@ export default function Terminal({ onBannerComplete, skipIntro = false }: Termin
                   >
                     <pre
                       ref={index === history.length - 1 ? outputRef : null} // Attach ref to the last output
-                      className="whitespace-pre"
+                      className="whitespace-pre-wrap break-words"
                     >
                       {item.content}
                     </pre>

@@ -21,7 +21,7 @@ const navItems: NavItem[] = [
 ]
 //item sosialmedia
 const socialItems: SocialItem[] = [
-  { name: 'GitHub', href: 'https://github.com/danusprout', icon: FaGithub },
+  { name: 'GitHub', href: 'https://github.com/Dhanuuwrdhn', icon: FaGithub },
   {
     name: 'LinkedIn',
     href: 'https://www.linkedin.com/in/dhanuwardhana',

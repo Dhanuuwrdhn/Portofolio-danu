@@ -40,7 +40,7 @@ export const predefinedQuestions: Question[] = [
   {
     question: 'How can I contact you?',
     answer:
-      'You can reach Danu through: Email — Dhanuwardhan12@gmail.com, LinkedIn — linkedin.com/in/dhanuwardhana, or GitHub — github.com/danusprout. Feel free to connect!',
+      'You can reach Danu through: Email — Dhanuwardhan12@gmail.com, LinkedIn — linkedin.com/in/dhanuwardhana, or GitHub — github.com/Dhanuuwrdhn. Feel free to connect!',
   },
 ]
 
