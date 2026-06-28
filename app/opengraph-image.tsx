@@ -63,13 +63,28 @@ export default function OpengraphImage() {
           style={{
             display: "flex",
             alignItems: "center",
-            marginTop: 56,
+            marginTop: 52,
             color: "#10B981",
-            fontSize: 28,
+            fontSize: 30,
           }}
         >
           <span style={{ marginRight: 12, color: "#475569" }}>~$</span>
           syahrialdanu.my.id
+        </div>
+
+        {/* socials */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 22,
+            color: "#94a3b8",
+            fontSize: 24,
+          }}
+        >
+          <span>in/dhanuwardhana</span>
+          <span style={{ margin: "0 16px", color: "#475569" }}>·</span>
+          <span>github.com/Dhanuuwrdhn</span>
         </div>
       </div>
     ),
