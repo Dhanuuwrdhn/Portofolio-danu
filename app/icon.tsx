@@ -13,14 +13,15 @@ export default function Icon() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          background: "#10B981",
-          color: "#0a0e14",
-          fontSize: 180,
+          background: "linear-gradient(145deg, #34d399 0%, #059669 100%)",
+          color: "#06281d",
+          fontSize: 108,
           fontWeight: 800,
+          letterSpacing: -6,
           fontFamily: "monospace",
         }}
       >
-        D
+        SD
       </div>
     ),
     { ...size }
