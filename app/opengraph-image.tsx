@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Syahrial Danu — Software Engineer";
+export const alt = "Syahrial Danu";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,64 +15,61 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          background: "linear-gradient(135deg, #0a0e14 0%, #131821 100%)",
+          background:
+            "radial-gradient(circle at 50% 35%, #16241f 0%, #0a0e14 60%)",
           fontFamily: "monospace",
-          padding: 60,
         }}
       >
+        {/* brand mark */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            borderRadius: 24,
-            border: "1px solid #1f2937",
-            background: "#0d1117",
-            boxShadow: "0 30px 80px rgba(0,0,0,0.5)",
-            padding: 56,
+            justifyContent: "center",
+            alignItems: "center",
+            width: 140,
+            height: 140,
+            borderRadius: 36,
+            background: "#10B981",
+            color: "#0a0e14",
+            fontSize: 96,
+            fontWeight: 800,
+            marginBottom: 44,
+            boxShadow: "0 20px 60px rgba(16,185,129,0.35)",
           }}
         >
-          {/* window dots */}
-          <div style={{ display: "flex", gap: 12, marginBottom: 40 }}>
-            <div style={{ width: 16, height: 16, borderRadius: 16, background: "#FF6059" }} />
-            <div style={{ width: 16, height: 16, borderRadius: 16, background: "#FFBE2F" }} />
-            <div style={{ width: 16, height: 16, borderRadius: 16, background: "#29CE42" }} />
-          </div>
+          D
+        </div>
 
-          {/* prompt */}
-          <div style={{ display: "flex", fontSize: 30, marginBottom: 28 }}>
-            <span style={{ color: "#FFA23E" }}>visitor@Danu.me:~$</span>
-            <span style={{ color: "#e2e8f0", marginLeft: 16 }}>whois</span>
-          </div>
+        {/* name */}
+        <div
+          style={{
+            display: "flex",
+            color: "#ffffff",
+            fontSize: 86,
+            fontWeight: 700,
+            letterSpacing: -1,
+          }}
+        >
+          Syahrial Danu
+        </div>
 
-          {/* name */}
-          <div style={{ display: "flex", color: "#ffffff", fontSize: 84, fontWeight: 700, marginBottom: 16 }}>
-            Syahrial Danu
-          </div>
+        {/* tagline */}
+        <div style={{ display: "flex", color: "#94a3b8", fontSize: 32, marginTop: 14 }}>
+          Software Engineer
+        </div>
 
-          {/* role */}
-          <div style={{ display: "flex", color: "#94a3b8", fontSize: 34, marginBottom: 28 }}>
-            Software Engineer · Fullstack & AI
-          </div>
-
-          {/* tech */}
-          <div style={{ display: "flex", color: "#10B981", fontSize: 26 }}>
-            Next.js · Flutter · NestJS · React Native · AI
-          </div>
-
-          {/* footer domain */}
-          <div
-            style={{
-              display: "flex",
-              marginTop: 44,
-              paddingTop: 28,
-              borderTop: "1px solid #1f2937",
-              color: "#10B981",
-              fontSize: 30,
-            }}
-          >
-            syahrialdanu.my.id
-          </div>
+        {/* domain */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 56,
+            color: "#10B981",
+            fontSize: 28,
+          }}
+        >
+          <span style={{ marginRight: 12, color: "#475569" }}>~$</span>
+          syahrialdanu.my.id
         </div>
       </div>
     ),
