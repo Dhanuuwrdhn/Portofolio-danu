@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import Layout from "@/app/components/Layout";
 import Terminal from "@/app/components/Terminal/Terminal";
@@ -15,14 +15,12 @@ import { PatternBackground } from "@/components/ui/pattern-background";
 import { Toaster } from "@/components/ui/sonner";
 
 export default function Home() {
-  const [showContent, setShowContent] = useState(false);
   const [initialMessageComplete, setInitialMessageComplete] = useState(false);
   const [terminalHeight, setTerminalHeight] = useState(0);
   const [terminalWidth, setTerminalWidth] = useState(0);
   const terminalRef = useRef<HTMLDivElement>(null);
 
   const handleBannerComplete = useCallback(() => {
-    setShowContent(true);
     setInitialMessageComplete(true);
   }, []);
 
@@ -62,15 +60,12 @@ export default function Home() {
               <Terminal onBannerComplete={handleBannerComplete} />
             </motion.div>
 
-            <AnimatePresence>
-              {showContent && (
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="w-full h-auto mt-8 container mx-auto px-4 sm:px-6 lg:px-10 xl:px-10 2xl:px-12"
-                >
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="w-full h-auto mt-8 container mx-auto px-4 sm:px-6 lg:px-10 xl:px-10 2xl:px-12"
+            >
                   <FloatingButton
                     terminalWidth={terminalWidth}
                     initialMessageComplete={initialMessageComplete}
@@ -105,9 +100,7 @@ export default function Home() {
                     </motion.div>
                   </div>
                   <Footer />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            </motion.div>
           </div>
         </div>
       </Layout>
