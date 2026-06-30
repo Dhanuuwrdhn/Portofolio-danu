@@ -4,7 +4,15 @@
 import type { About } from '@/app/data/about' // Change to type-only import
 import { aboutData } from '@/app/data/about'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
@@ -58,18 +66,35 @@ export default function About() {
             <Link href="mailto:Dhanuwardhan12@gmail.com">Say hi!</Link>
           </Button>
 
-          <Button
-            asChild
-            className="rounded-full bg-[#273344] hover:bg-[#354459] text-white font-medium px-6 py-2 transition-all duration-300 hover:scale-105"
-          >
-            <Link
-              href="/cv/Syahrial-Danu-Wardhana-resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download CV
-            </Link>
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="rounded-full bg-[#273344] hover:bg-[#354459] text-white font-medium px-6 py-2 transition-all duration-300 hover:scale-105">
+                Download CV
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl bg-[#131821] border-[#273344] text-white">
+              <DialogHeader>
+                <DialogTitle>Resume Preview</DialogTitle>
+              </DialogHeader>
+              <div className="max-h-[65vh] overflow-y-auto rounded-lg border border-[#273344]">
+                <Image
+                  src="/cv/resume-preview.png"
+                  alt="Syahrial Danu Wardhana — Resume preview"
+                  width={848}
+                  height={1200}
+                  className="w-full h-auto"
+                />
+              </div>
+              <Button
+                asChild
+                className="rounded-full bg-[#10B981] hover:bg-[#0D9668] text-white font-medium"
+              >
+                <a href="/cv/Syahrial-Danu-Wardhana-resume.pdf" download>
+                  Download PDF
+                </a>
+              </Button>
+            </DialogContent>
+          </Dialog>
         </motion.div>
       </div>
     </motion.div>
