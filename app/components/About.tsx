@@ -85,14 +85,28 @@ export default function About() {
                   className="w-full h-auto"
                 />
               </div>
-              <Button
-                asChild
-                className="rounded-full bg-[#10B981] hover:bg-[#0D9668] text-white font-medium"
-              >
-                <a href="/cv/Syahrial-Danu-Wardhana-resume.pdf" download>
-                  Download PDF
-                </a>
-              </Button>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  asChild
+                  className="rounded-full bg-[#10B981] hover:bg-[#0D9668] text-white font-medium"
+                >
+                  <a href="/cv/Syahrial-Danu-Wardhana-resume.pdf" download>
+                    Download PDF
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  className="rounded-full border border-[#273344] bg-transparent hover:bg-[#273344] text-white font-medium"
+                >
+                  <a
+                    href="/cv/Syahrial-Danu-Wardhana-resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open in new tab
+                  </a>
+                </Button>
+              </div>
             </DialogContent>
           </Dialog>
         </motion.div>
