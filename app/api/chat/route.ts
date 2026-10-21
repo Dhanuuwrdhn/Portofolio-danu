@@ -23,6 +23,9 @@ TECH STACK:
 - Comfortable across mobile, web, and backend development
 
 NOTABLE PROJECTS:
+- SPEKTRA (freelance via Bornworks: transmission-tower vulnerability monitoring for PLN UIW Banten, Next.js + NestJS)
+- Invoice·PDF (freelance via Bornworks: Indonesian invoice builder with PDF export, Next.js + NestJS)
+- Bornworks landing page (freelance, Next.js)
 - SentralPart.com (automotive parts e-commerce)
 - UMKM App (mobile POS with inventory management)
 - E-statement FDR (motorcycle parts management)

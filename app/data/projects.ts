@@ -5,12 +5,46 @@ export type Project = {
   date: string;
   description: string;
   skills?: { id: number; title: string }[];
-  type: "paid" | "personal";
+  type: "paid" | "freelance" | "personal";
   link: string;
   imageUrl: string;
 };
 
 export const projects: Project[] = [
+  {
+    id: 11,
+    title: "SPEKTRA",
+    company: "Bornworks · PLN UIW Banten",
+    date: "2026-01-01",
+    description:
+      "Sistem Pemantauan Kerawanan Transmisi: a monitoring platform for transmission-tower vulnerability at PLN UIW Banten. Field teams see towers, substations and transmission lines on an interactive map, log inspections, and flag towers that need attention, with role-based access for admins and technicians.",
+    skills: [
+      { id: 1, title: "Next.js" },
+      { id: 2, title: "NestJS" },
+      { id: 3, title: "Prisma" },
+      { id: 4, title: "PostgreSQL" },
+      { id: 5, title: "Leaflet" },
+    ],
+    type: "freelance",
+    link: "https://spektra.biz.id/login",
+    imageUrl: "/photos/spektra.webp",
+  },
+  {
+    id: 12,
+    title: "Invoice·PDF",
+    company: "Bornworks",
+    date: "2026-01-01",
+    description:
+      "An invoice builder for Indonesian freelancers and consultants. Users fill in sender, client and line items, then download a proper Indonesian invoice as PDF, complete with the amount in words (terbilang), payment terms (termin), PPN and a signature block, with user accounts to sign in.",
+    skills: [
+      { id: 1, title: "Next.js" },
+      { id: 2, title: "NestJS" },
+      { id: 3, title: "PDF Generation" },
+    ],
+    type: "freelance",
+    link: "https://invoice.bornworks.biz.id",
+    imageUrl: "/photos/invoice-pdf.webp",
+  },
   {
     id: 1,
     title: "E-statement FDR",
@@ -154,7 +188,7 @@ export const projects: Project[] = [
   {
     id: 9,
     title: "Bornworks Landing Page",
-    company: "Personal Project",
+    company: "Bornworks",
     date: "2026-04-01",
     description:
       "Designed and developed a modern landing page for Bornworks, a digital product studio focused on building web apps, mobile apps, and SaaS platforms. Features a clean, conversion-focused layout with service highlights, portfolio showcase, and contact integration.",
@@ -164,9 +198,9 @@ export const projects: Project[] = [
       { id: 3, title: "Tailwind CSS" },
       { id: 4, title: "UI/UX Design" },
     ],
-    type: "personal",
-    link: "https://landing-page-bornworks.vercel.app",
-    imageUrl: "/photos/bornworks.png",
+    type: "freelance",
+    link: "https://bornworks.biz.id",
+    imageUrl: "/photos/bornworks.webp",
   },
   {
     id: 8,
