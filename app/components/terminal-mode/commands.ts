@@ -178,14 +178,14 @@ export function runCommand(raw: string, narrow: boolean): CommandResult {
   }
 
   if (cmd === "projects" || cmd === "ls projects") {
-    out.push(line([s(`${projects.length} projects`, "wh"), s(narrow ? "" : "  ·  client work & personal", "mu")]));
+    out.push(line([s(`${projects.length} projects`, "wh"), s(narrow ? "" : "  ·  client, freelance & personal", "mu")]));
     out.push(blank());
     if (!narrow) {
-      out.push(line([s("  #  " + "project".padEnd(32) + "type".padEnd(10) + "year".padEnd(6) + "link", "mu")]));
+      out.push(line([s("  #  " + "project".padEnd(32) + "type".padEnd(11) + "year".padEnd(6) + "link", "mu")]));
     }
     projects.forEach((project, i) => {
       const n = String(i + 1).padStart(2, "0");
-      const type = project.type === "paid" ? "client" : "personal";
+      const type = { paid: "client", freelance: "freelance", personal: "personal" }[project.type];
       const year = yearOf(project.date);
       const link = project.link !== "#" ? a("↗ live", project.link) : s("private", "mu");
       const skills = (project.skills ?? []).map((skill) => skill.title).join(" · ");
@@ -193,7 +193,7 @@ export function runCommand(raw: string, narrow: boolean): CommandResult {
         out.push(line([s(n + " ", "mu"), s(project.title, "wh")]));
         out.push(line([s(`${type} · ${year} · `, "mu"), link], { indent: "3ch" }));
       } else {
-        out.push(line([s("  " + n + " ", "mu"), s(project.title.padEnd(32), "wh"), s(type.padEnd(10)), s(year.padEnd(6), "mu"), link]));
+        out.push(line([s("  " + n + " ", "mu"), s(project.title.padEnd(32), "wh"), s(type.padEnd(11)), s(year.padEnd(6), "mu"), link]));
         if (skills) out.push(line([s(skills, "mu")], { indent: "5ch", kind: "small" }));
       }
     });

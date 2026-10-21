@@ -16,9 +16,6 @@ import Section, { StackChip } from "./Section";
 
 const yearOf = (date: string) => new Date(date).getFullYear().toString();
 
-const monthYear = (date: string) =>
-  new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short" }).format(new Date(date));
-
 const hostOf = (link: string) => {
   try {
     return new URL(link).host;
@@ -32,14 +29,17 @@ const isLive = (project: Project) => project.link !== "#";
 // Logos and illustrations are SVGs and look best padded, screenshots should fill the frame
 const isIllustration = (src: string) => src.endsWith(".svg");
 
+export const PROJECT_TYPES: Record<Project["type"], { label: string; badge: string }> = {
+  paid: { label: "Client work", badge: "bg-[#ECFDF5] text-[#047857]" },
+  freelance: { label: "Freelance", badge: "bg-[#EFF6FF] text-[#1D4ED8]" },
+  personal: { label: "Personal", badge: "bg-[#F4F4F5] text-[#52525B]" },
+};
+
 function TypeBadge({ project }: { project: Project }) {
-  return project.type === "paid" ? (
-    <span className="rounded-md bg-[#ECFDF5] px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-[#047857]">
-      Client work
-    </span>
-  ) : (
-    <span className="rounded-md bg-[#F4F4F5] px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-[#52525B]">
-      Personal
+  const type = PROJECT_TYPES[project.type];
+  return (
+    <span className={`rounded-md px-2 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.04em] ${type.badge}`}>
+      {type.label}
     </span>
   );
 }
@@ -126,8 +126,8 @@ function ProjectModal({
 
   const details = [
     { label: "Client", value: project.company },
-    { label: "Type", value: project.type === "paid" ? "Client work" : "Personal project" },
-    { label: "Date", value: monthYear(project.date) },
+    { label: "Type", value: PROJECT_TYPES[project.type].label },
+    { label: "Year", value: yearOf(project.date) },
   ];
 
   return (
@@ -240,7 +240,7 @@ export default function ProProjects() {
       title="Selected work"
       className="border-b bg-[#FAFAFA]"
       aside={
-        <p className="text-sm text-[#71717A]">{projects.length} projects · client work &amp; personal</p>
+        <p className="text-sm text-[#71717A]">{projects.length} projects · client, freelance &amp; personal</p>
       }
     >
       <div className="mt-7 grid grid-cols-[repeat(auto-fill,minmax(min(100%,420px),1fr))] gap-4 md:mt-10 md:gap-6">
