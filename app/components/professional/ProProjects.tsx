@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Lock, X } from "lucide-react";
-import { projects } from "@/app/data/projects";
+import { projects, projectTypeSummary } from "@/app/data/projects";
 import type { Project } from "@/app/data/projects";
 import {
   Dialog,
@@ -240,7 +240,7 @@ export default function ProProjects() {
       title="Selected work"
       className="border-b bg-[#FAFAFA]"
       aside={
-        <p className="text-sm text-[#71717A]">{projects.length} projects · client, freelance &amp; personal</p>
+        <p className="text-sm text-[#71717A]">{projects.length} projects · {projectTypeSummary}</p>
       }
     >
       <div className="mt-7 grid grid-cols-[repeat(auto-fill,minmax(min(100%,420px),1fr))] gap-4 md:mt-10 md:gap-6">
