@@ -170,22 +170,6 @@ export const projects: Project[] = [
     imageUrl: "/photos/LogoSentralPart-Horizontal.svg",
   },
   {
-    id: 10,
-    title: "Invoice Generator",
-    company: "Personal Project",
-    date: "2026-04-01",
-    description:
-      "A personal side project for generating professional invoices and exporting them as PDF. Built to simplify the billing process with a clean form-based UI that produces ready-to-send invoice documents instantly.",
-    skills: [
-      { id: 1, title: "Next.js" },
-      { id: 2, title: "React.js" },
-      { id: 3, title: "PDF Generation" },
-    ],
-    type: "personal",
-    link: "https://invoice-generator-pdf-kappa.vercel.app",
-    imageUrl: "/photos/invoice-generator.png",
-  },
-  {
     id: 9,
     title: "Bornworks Landing Page",
     company: "Bornworks",
@@ -221,3 +205,19 @@ export const projects: Project[] = [
     imageUrl: "/photos/umkm-app.svg",
   },
 ];
+
+const TYPE_SUMMARY_LABELS: Record<Project["type"], string> = {
+  paid: "client",
+  freelance: "freelance",
+  personal: "personal",
+};
+
+// e.g. "client & freelance": built from the types actually present, so it never lists an empty one
+export const projectTypeSummary = (() => {
+  const labels = (Object.keys(TYPE_SUMMARY_LABELS) as Project["type"][])
+    .filter((type) => projects.some((project) => project.type === type))
+    .map((type) => TYPE_SUMMARY_LABELS[type]);
+  return labels.length > 1
+    ? `${labels.slice(0, -1).join(", ")} & ${labels[labels.length - 1]}`
+    : labels.join("");
+})();

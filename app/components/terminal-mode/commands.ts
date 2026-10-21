@@ -1,6 +1,6 @@
 import { coreStack, tagline } from "@/app/data/about";
 import { experiences } from "@/app/data/experiences";
-import { projects } from "@/app/data/projects";
+import { projects, projectTypeSummary } from "@/app/data/projects";
 import { contactEmail, resumePdfPath, socialHandles, socialLinks } from "@/app/data/socials";
 
 export type Tone = "tx" | "mu" | "em" | "or" | "wh" | "er";
@@ -178,7 +178,7 @@ export function runCommand(raw: string, narrow: boolean): CommandResult {
   }
 
   if (cmd === "projects" || cmd === "ls projects") {
-    out.push(line([s(`${projects.length} projects`, "wh"), s(narrow ? "" : "  ·  client, freelance & personal", "mu")]));
+    out.push(line([s(`${projects.length} projects`, "wh"), s(narrow ? "" : `  ·  ${projectTypeSummary}`, "mu")]));
     out.push(blank());
     if (!narrow) {
       out.push(line([s("  #  " + "project".padEnd(32) + "type".padEnd(11) + "year".padEnd(6) + "link", "mu")]));
