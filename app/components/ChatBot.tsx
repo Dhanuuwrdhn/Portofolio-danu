@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { ArrowUp, ChevronDown, RotateCcw, Sparkles, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { predefinedQuestions } from "@/app/data/chatbots";
 
@@ -14,70 +12,101 @@ interface Message {
   isUser: boolean;
 }
 
-// Global utility outside component
-function debounce<Args extends unknown[]>(
-  fn: (...args: Args) => void,
-  wait = 50
-) {
-  let t: ReturnType<typeof setTimeout> | undefined;
+type ChatTheme = "light" | "dark";
 
-  return (...args: Args) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn(...args), wait);
-  };
+interface ChatBotProps {
+  theme?: ChatTheme;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  // Lifts the launcher above a bottom toolbar, as in the terminal view
+  raised?: boolean;
 }
 
-export default function ChatBot() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { text: "Hello! I'm Karen 🤖, Danu's AI assistant. Ask me anything about him, or pick a question below!", isUser: false },
-  ]);
-  const [inputValue, setInputValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const questionContainerRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+const greeting: Message[] = [
+  { text: "Hi, I'm Karen.", isUser: false },
+  {
+    text: "I can tell you about Danu's work, projects, or how to reach him. What would you like to know?",
+    isUser: false,
+  },
+];
 
-  const [lastMessageTime, setLastMessageTime] = useState(0);
+const themes = {
+  light: {
+    launcher:
+      "bg-[#18181B] text-white shadow-[0_12px_32px_rgba(24,24,27,0.22)] font-sans",
+    launcherLabel: "Ask Karen",
+    panel: "bg-white border-[#E4E4E7] shadow-[0_30px_70px_rgba(24,24,27,0.18)] text-[#18181B] font-sans",
+    header: "border-[#F4F4F5]",
+    subtitle: "text-[#71717A]",
+    iconButton: "text-[#71717A] hover:bg-[#F4F4F5] hover:text-[#18181B]",
+    body: "bg-[#FAFAFA]",
+    stamp: "text-[#71717A]",
+    botBubble: "bg-white border border-[#E4E4E7] text-[#18181B]",
+    userBubble: "bg-[#18181B] text-white",
+    chip: "bg-white border-[#E4E4E7] text-[#18181B] hover:border-[#18181B]",
+    footer: "border-[#F4F4F5]",
+    inputWrap: "border-[#E4E4E7] focus-within:border-[#18181B]",
+    input: "text-[#18181B] placeholder:text-[#A1A1AA]",
+    disclaimer: "text-[#71717A]",
+  },
+  dark: {
+    launcher:
+      "bg-[#131821] border border-[#273344] text-[#F4F4F5] shadow-[0_12px_32px_rgba(0,0,0,0.4)] font-mono",
+    launcherLabel: "ask karen",
+    panel: "bg-[#131821] border-[#273344] shadow-[0_30px_70px_rgba(0,0,0,0.5)] text-[#F4F4F5] font-mono",
+    header: "border-[#273344]",
+    subtitle: "text-[#7D8A9C]",
+    iconButton: "text-[#7D8A9C] hover:bg-[#1C2430] hover:text-[#F4F4F5]",
+    body: "bg-[#10151D]",
+    stamp: "text-[#7D8A9C]",
+    botBubble: "bg-[#131821] border border-[#273344] text-[#C8D1DC]",
+    userBubble: "bg-[#10B981] text-[#052E1F]",
+    chip: "bg-[#131821] border-[#273344] text-[#C8D1DC] hover:border-[#10B981]",
+    footer: "border-[#273344]",
+    inputWrap: "border-[#273344] focus-within:border-[#10B981]",
+    input: "text-[#F4F4F5] placeholder:text-[#4B5A6E]",
+    disclaimer: "text-[#7D8A9C]",
+  },
+} satisfies Record<ChatTheme, Record<string, string>>;
 
-  const scrollToBottom = useRef(
-    debounce(() => {
-      if (scrollAreaRef.current) {
-        const viewport = scrollAreaRef.current.querySelector(
-          "[data-radix-scroll-area-viewport]"
-        ) as HTMLElement | null;
-        if (viewport) viewport.scrollTop = viewport.scrollHeight;
-      }
-    }, 50)
-  ).current;
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading, scrollToBottom]);
-
-  // Close chatbot on Escape key
-  const handleEscapeKey = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        setIsOpen(false);
-      }
+export default function ChatBot({ theme = "light", open, onOpenChange, raised = false }: ChatBotProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = open ?? internalOpen;
+  const setIsOpen = useCallback(
+    (next: boolean) => {
+      if (open === undefined) setInternalOpen(next);
+      onOpenChange?.(next);
     },
-    [isOpen]
+    [onOpenChange, open]
   );
 
+  const [messages, setMessages] = useState<Message[]>(greeting);
+  const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [lastMessageTime, setLastMessageTime] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const t = themes[theme];
+
   useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, isLoading]);
+
+  // Close chatbot on Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEscapeKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
     document.addEventListener("keydown", handleEscapeKey);
     return () => document.removeEventListener("keydown", handleEscapeKey);
-  }, [handleEscapeKey]);
+  }, [isOpen, setIsOpen]);
 
   // Focus input when chat opens
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      setTimeout(() => inputRef.current?.focus(), 300);
-    }
+    if (!isOpen) return;
+    const timer = setTimeout(() => inputRef.current?.focus(), 250);
+    return () => clearTimeout(timer);
   }, [isOpen]);
 
   const sendMessage = async (message: string) => {
@@ -103,10 +132,7 @@ export default function ChatBot() {
 
       if (predefined) {
         await new Promise((resolve) => setTimeout(resolve, 500)); // Brief delay for UX
-        setMessages((prev) => [
-          ...prev,
-          { text: predefined.answer, isUser: false },
-        ]);
+        setMessages((prev) => [...prev, { text: predefined.answer, isUser: false }]);
       } else {
         // Call AI via API route
         const response = await fetch("/api/chat", {
@@ -123,9 +149,7 @@ export default function ChatBot() {
         setMessages((prev) => [
           ...prev,
           {
-            text:
-              data.response ||
-              "Sorry, I couldn't process that. Please try again.",
+            text: data.response || "Sorry, I couldn't process that. Please try again.",
             isUser: false,
           },
         ]);
@@ -135,7 +159,7 @@ export default function ChatBot() {
       setMessages((prev) => [
         ...prev,
         {
-          text: "⚠️ Sorry, something went wrong. Please try again or pick a question below.",
+          text: "Sorry, something went wrong. Please try again or pick a question above.",
           isUser: false,
         },
       ]);
@@ -144,170 +168,163 @@ export default function ChatBot() {
     }
   };
 
-  const handleQuestionClick = (question: string) => {
-    sendMessage(question);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage(inputValue);
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.pageX - (questionContainerRef.current?.offsetLeft || 0));
-    setScrollLeft(questionContainerRef.current?.scrollLeft || 0);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - (questionContainerRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 1;
-    if (questionContainerRef.current) {
-      questionContainerRef.current.scrollLeft = scrollLeft - walk;
-    }
+  const resetChat = () => {
+    setMessages(greeting);
+    setInputValue("");
+    inputRef.current?.focus();
   };
 
   return (
     <>
-      <Button
+      <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full p-2 bg-[#131821]/80 backdrop-blur-lg border-[2px] border-[#273344]/50 text-slate-200 transition-all duration-300 hover:border-[#273344] ${
-          isOpen ? "bg-[#1c2736]" : ""
-        }`}
-        variant={isOpen ? "default" : "outline"}
+        aria-expanded={isOpen}
+        aria-label={isOpen ? "Close chat" : "Ask Karen, Danu's AI assistant"}
+        className={`fixed right-4 z-50 flex h-[52px] items-center gap-2.5 rounded-full text-sm font-medium transition-transform hover:-translate-y-0.5 sm:right-7 ${
+          raised ? "bottom-[80px] sm:bottom-[104px]" : "bottom-4 sm:bottom-6 sm:right-6"
+        } ${t.launcher} ${isOpen ? "w-[52px] justify-center" : "pl-2 pr-2 sm:pr-5"}`}
       >
         {isOpen ? (
-          <X className="h-6 w-6" />
+          <X className="h-5 w-5" aria-hidden />
         ) : (
-          <MessageCircle className="h-6 w-6" />
+          <>
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#10B981]">
+              <Sparkles className="h-[18px] w-[18px] text-[#052E1F]" aria-hidden />
+            </span>
+            <span className="hidden sm:inline">{t.launcherLabel}</span>
+          </>
         )}
-        <span className="sr-only">Chat Bot</span>
-      </Button>
+      </button>
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          <motion.section
+            role="dialog"
+            aria-label="Chat with Karen"
+            initial={{ opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed bottom-20 right-4 z-[60] flex h-[min(70vh,500px)] min-h-[420px] w-[min(90vw,400px)] min-h-0 flex-col overflow-hidden rounded-xl border-[2px] border-[#273344] bg-[#131821]/95 shadow-xl backdrop-blur-lg"
+            exit={{ opacity: 0, scale: 0.96, y: 16 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            style={{ transformOrigin: "bottom right" }}
+            className={`fixed right-4 z-50 flex w-[min(400px,calc(100vw-32px))] flex-col overflow-hidden rounded-[20px] border sm:right-6 ${
+              raised
+                ? "bottom-[144px] h-[min(620px,calc(100dvh-176px))] sm:bottom-[168px] sm:h-[min(620px,calc(100dvh-200px))]"
+                : "bottom-[80px] h-[min(660px,calc(100dvh-112px))] sm:bottom-[92px]"
+            } ${t.panel}`}
           >
-            {/* Title Bar */}
-            <div className="shrink-0 border-b border-[#273344] bg-[#131821]/80 p-4 backdrop-blur-md">
-              <h3 className="text-white font-medium text-center">🤖 Karen <span className="text-xs text-emerald-400 font-normal">• AI Powered</span></h3>
-            </div>
-
-            {/* Chat Messages */}
-            <ScrollArea className="min-h-0 flex-1" ref={scrollAreaRef}>
-              <div className="space-y-3 p-4">
-                {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={message.isUser ? "text-right" : "text-left"}
-                  >
-                    <span
-                      className={`inline-block max-w-[85%] rounded-lg p-3 text-sm leading-relaxed ${
-                        message.isUser
-                          ? "bg-[#1c2736] text-slate-200 rounded-br-sm"
-                          : "bg-[#273344] text-slate-200 rounded-bl-sm"
-                      }`}
-                    >
-                      {message.text}
-                    </span>
-                  </div>
-                ))}
-                {/* Typing indicator */}
-                {isLoading && (
-                  <div className="text-left">
-                    <span className="inline-block rounded-lg bg-[#273344] p-3 text-slate-400 rounded-bl-sm">
-                      <span className="flex items-center gap-2 text-sm">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Thinking...
-                      </span>
-                    </span>
-                  </div>
-                )}
-                <div className="h-1" />
+            <header className={`flex flex-none items-center gap-3 border-b py-3.5 pl-4 pr-3.5 ${t.header}`}>
+              <span className="flex h-[38px] w-[38px] flex-none items-center justify-center rounded-full bg-[#10B981]">
+                <Sparkles className="h-[18px] w-[18px] text-[#052E1F]" aria-hidden />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[15px] font-semibold">Karen</p>
+                <p className={`mt-0.5 flex items-center gap-1.5 text-[12.5px] ${t.subtitle}`}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
+                  Danu&apos;s AI assistant
+                </p>
               </div>
-            </ScrollArea>
-
-            {/* Questions Carousel */}
-            <div className="shrink-0 overflow-hidden border-t border-[#273344] bg-[#131821]/50 px-4 pt-3 pb-2">
-              <p className="text-[10px] text-slate-500 mb-1.5 uppercase tracking-wider">Quick questions</p>
-              <div
-                ref={questionContainerRef}
-                className={`flex space-x-2 overflow-x-auto pb-1 ${isLoading ? 'pointer-events-none opacity-70' : 'cursor-grab active:cursor-grabbing'}`}
-                style={{ scrollbarWidth: "thin", scrollbarColor: "#273344 transparent", WebkitOverflowScrolling: "touch" }}
-                onMouseDown={isLoading ? undefined : handleMouseDown}
-                onMouseUp={isLoading ? undefined : handleMouseUp}
-                onMouseMove={isLoading ? undefined : handleMouseMove}
-                onMouseLeave={isLoading ? undefined : handleMouseUp}
-                onTouchStart={isLoading ? undefined : (e) => {
-                  setIsDragging(true);
-                  setStartX(e.touches[0].pageX - (questionContainerRef.current?.offsetLeft || 0));
-                  setScrollLeft(questionContainerRef.current?.scrollLeft || 0);
-                }}
-                onTouchEnd={isLoading ? undefined : () => setIsDragging(false)}
-                onTouchMove={isLoading ? undefined : (e) => {
-                  if (!isDragging) return;
-                  const x = e.touches[0].pageX - (questionContainerRef.current?.offsetLeft || 0);
-                  const walk = (x - startX) * 2;
-                  if (questionContainerRef.current) {
-                    questionContainerRef.current.scrollLeft = scrollLeft - walk;
-                  }
-                }}
-                role="listbox"
-                aria-label="Quick questions"
+              <button
+                type="button"
+                onClick={resetChat}
+                aria-label="Start a new chat"
+                className={`flex h-9 w-9 items-center justify-center rounded-[10px] transition-colors ${t.iconButton}`}
               >
-                {predefinedQuestions.map((item, index) => (
-                  <Button
-                    key={index}
-                    onClick={() => handleQuestionClick(item.question)}
-                    disabled={isLoading}
-                    variant="outline"
-                    className="whitespace-nowrap flex-shrink-0 bg-[#131821]/50 backdrop-blur-lg border-[1px] border-[#273344]/50 text-slate-200 text-xs disabled:opacity-50"
-                  >
-                    {item.question}
-                  </Button>
-                ))}
-              </div>
-            </div>
+                <RotateCcw className="h-4 w-4" aria-hidden />
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                aria-label="Minimize chat"
+                className={`flex h-9 w-9 items-center justify-center rounded-[10px] transition-colors ${t.iconButton}`}
+              >
+                <ChevronDown className="h-[18px] w-[18px]" aria-hidden />
+              </button>
+            </header>
 
-            {/* Input Field */}
-            <form
-              onSubmit={handleSubmit}
-              className="shrink-0 border-t border-[#273344] bg-[#131821]/80 p-3 flex gap-2"
+            <div
+              ref={scrollRef}
+              aria-live="polite"
+              className={`flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 py-[18px] ${t.body}`}
             >
-              <input
-                ref={inputRef}
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask me anything about Danu..."
-                disabled={isLoading}
-                className="flex-1 bg-[#1c2736] border border-[#273344] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-500 outline-none focus:border-[#3b4f6b] transition-colors disabled:opacity-50"
-              />
-              <Button
-                type="submit"
-                disabled={isLoading || !inputValue.trim()}
-                className="rounded-lg p-2 bg-[#1c2736] border border-[#273344] text-slate-200 hover:bg-[#273344] disabled:opacity-50 transition-colors"
-                variant="outline"
+              <span className={`self-center font-mono text-[11px] ${t.stamp}`}>today</span>
+              {messages.map((message, index) => (
+                <div key={index} className="contents">
+                  <div
+                    className={`max-w-[85%] whitespace-pre-line px-3.5 py-[11px] text-sm leading-relaxed ${
+                      message.isUser
+                        ? `self-end rounded-[16px_16px_4px_16px] ${t.userBubble}`
+                        : `self-start rounded-[16px_16px_16px_4px] ${t.botBubble}`
+                    }`}
+                  >
+                    {message.text}
+                  </div>
+                  {index === greeting.length - 1 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {predefinedQuestions.map((item) => (
+                        <button
+                          key={item.question}
+                          type="button"
+                          onClick={() => sendMessage(item.question)}
+                          disabled={isLoading}
+                          className={`h-8 rounded-full border px-3 text-[13px] font-medium transition-colors disabled:opacity-50 ${t.chip}`}
+                        >
+                          {item.question}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {isLoading && (
+                <div
+                  aria-label="Karen is typing"
+                  className={`animate-typing flex gap-1 self-start rounded-[16px_16px_16px_4px] px-3.5 py-[11px] ${t.botBubble}`}
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
+                </div>
+              )}
+            </div>
+
+            <form onSubmit={handleSubmit} className={`flex-none border-t px-3.5 pb-2.5 pt-3 ${t.footer}`}>
+              <div
+                className={`flex items-center gap-2 rounded-[14px] border py-1.5 pl-3.5 pr-1.5 transition-colors ${t.inputWrap}`}
               >
-                {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Send className="h-4 w-4" />
-                )}
-              </Button>
+                <label htmlFor="karen-input" className="sr-only">
+                  Message Karen
+                </label>
+                <input
+                  id="karen-input"
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Ask about Danu's work…"
+                  disabled={isLoading}
+                  autoComplete="off"
+                  className={`min-w-0 flex-1 bg-transparent text-base outline-none sm:text-sm ${t.input}`}
+                />
+                <button
+                  type="submit"
+                  aria-label="Send message"
+                  disabled={isLoading || !inputValue.trim()}
+                  className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#10B981] text-[#052E1F] transition-opacity disabled:opacity-40"
+                >
+                  <ArrowUp className="h-[18px] w-[18px]" aria-hidden />
+                </button>
+              </div>
+              <p className={`mt-2 text-center text-[11.5px] ${t.disclaimer}`}>
+                Karen is an AI and can make mistakes. Check the resume for details.
+              </p>
             </form>
-          </motion.div>
+          </motion.section>
         )}
       </AnimatePresence>
     </>

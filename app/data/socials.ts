@@ -5,5 +5,10 @@ export const socialLinks = {
   linkedin: "https://www.linkedin.com/in/dhanuwardhana",
 };
 
+export const socialHandles = {
+  github: "Dhanuuwrdhn",
+  linkedin: "dhanuwardhana",
+};
+
 export const resumePdfPath = "/cv/Syahrial-Danu-Wardhana-resume.pdf";
 export const resumePreviewPath = "/cv/resume-preview.png";
