@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react'
 
 interface NavbarProps {
   terminalHeight: number
+  onSwitchMode?: () => void
 }
 
-export default function Navbar({ terminalHeight }: NavbarProps) {
+export default function Navbar({ terminalHeight, onSwitchMode }: NavbarProps) {
   const [showName, setShowName] = useState(false)
   const [showButtons, setShowButtons] = useState(false)
   const [activeSection, setActiveSection] = useState<string | null>(null)
@@ -117,6 +118,24 @@ export default function Navbar({ terminalHeight }: NavbarProps) {
                       </a>
                     </motion.div>
                   ))}
+                {showButtons && onSwitchMode && (
+                  <motion.div
+                    key="switch-mode"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <button
+                      type="button"
+                      onClick={onSwitchMode}
+                      className="text-slate-400 hover:bg-gray-700 hover:text-[#10B981] px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                      aria-label="Switch to professional view"
+                    >
+                      GUI
+                    </button>
+                  </motion.div>
+                )}
               </AnimatePresence>
             </div>
           </div>

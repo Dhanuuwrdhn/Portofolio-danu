@@ -9,6 +9,7 @@ export const help = [
   "banner",
   "clear",
   "help",
+  "gui",
   "su",
 ];
 
@@ -72,6 +73,9 @@ Whether it's crafting user-friendly interfaces or implementing smart solutions, 
     case "help":
       output = `Available commands: ${help.join(", ")}`;
       break;
+    case "gui":
+      output = "Switching to the professional view...";
+      break;
     case "su":
       output = "It doesn't do anything now, but it will be soon. 😏";
       break;
@@ -132,6 +136,7 @@ export const banner = `Danu, All rights reserved.
 
 Welcome to my personal website.
 For a list of available commands, type 'help'.
+Prefer a clean layout? Type 'gui' to open the professional view.
 `;
 
 export const initialMessage = `Booting up the terminal ...

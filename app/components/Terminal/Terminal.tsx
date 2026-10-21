@@ -14,9 +14,14 @@ interface HistoryItem {
 interface TerminalProps {
   onBannerComplete?: () => void
   skipIntro?: boolean
+  onSwitchToProfessional?: () => void
 }
 
-export default function Terminal({ onBannerComplete, skipIntro = false }: TerminalProps) {
+export default function Terminal({
+  onBannerComplete,
+  skipIntro = false,
+  onSwitchToProfessional,
+}: TerminalProps) {
   const [terminalInput, setTerminalInput] = useState('')
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [isTyping, setIsTyping] = useState(false)
@@ -208,6 +213,11 @@ export default function Terminal({ onBannerComplete, skipIntro = false }: Termin
 
     if (command.trim() === 'clear') {
       setHistory([])
+      return
+    }
+
+    if (command.trim() === 'gui' && onSwitchToProfessional) {
+      onSwitchToProfessional()
       return
     }
 

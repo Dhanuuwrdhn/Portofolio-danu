@@ -177,7 +177,7 @@ export default function ChatBot() {
     <>
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full p-2 bg-[#131821]/50 backdrop-blur-lg border-[2px] border-[#273344]/50 text-slate-200 transition-all duration-300 hover:border-[#273344] ${
+        className={`rounded-full p-2 bg-[#131821]/80 backdrop-blur-lg border-[2px] border-[#273344]/50 text-slate-200 transition-all duration-300 hover:border-[#273344] ${
           isOpen ? "bg-[#1c2736]" : ""
         }`}
         variant={isOpen ? "default" : "outline"}
@@ -197,7 +197,7 @@ export default function ChatBot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-20 right-4 z-[60] flex h-[min(70vh,500px)] min-h-[420px] w-[min(90vw,400px)] min-h-0 flex-col overflow-hidden rounded-xl border-[2px] border-[#273344] bg-[#131821]/50 shadow-xl backdrop-blur-lg"
+            className="fixed bottom-20 right-4 z-[60] flex h-[min(70vh,500px)] min-h-[420px] w-[min(90vw,400px)] min-h-0 flex-col overflow-hidden rounded-xl border-[2px] border-[#273344] bg-[#131821]/95 shadow-xl backdrop-blur-lg"
           >
             {/* Title Bar */}
             <div className="shrink-0 border-b border-[#273344] bg-[#131821]/80 p-4 backdrop-blur-md">
