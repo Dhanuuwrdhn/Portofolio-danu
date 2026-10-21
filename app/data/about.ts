@@ -13,15 +13,10 @@ export const aboutData: About[] = [
   },
 ]
 
-export const coreStack: string[] = [
-  'Flutter',
-  'Next.js',
-  'React',
-  'NestJS',
-  'Express.js',
-  'Laravel',
-  'React Native',
-  'Kotlin',
-  'Docker',
-  'AI Integration',
-]
+export const tagline =
+  'Software Engineer building web, mobile, and AI-powered products from idea to production.'
+
+export const summary =
+  "I ship Flutter apps, Next.js platforms and NestJS / Laravel backends, and I've led a delivery team as Technical Leader. I like clean architecture, short feedback loops, and software that actually reaches users."
+
+export const coreStack: string[] = ['Flutter', 'Next.js', 'NestJS', 'React Native', 'Laravel', 'Docker']

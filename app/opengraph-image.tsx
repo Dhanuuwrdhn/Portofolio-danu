@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { LOGO_PATHS } from "@/components/brand/Logo";
 
 export const alt = "Syahrial Danu — Software Engineer";
 export const size = { width: 1200, height: 630 };
@@ -14,7 +15,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0A0E14",
+          background: "#10151D",
           backgroundImage:
             "radial-gradient(circle at 12% 8%, rgba(16,185,129,0.18), transparent 42%), radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px)",
           backgroundSize: "100% 100%, 30px 30px",
@@ -31,16 +32,16 @@ export default function OpengraphImage() {
               alignItems: "center",
               width: 96,
               height: 96,
-              borderRadius: 26,
-              background: "linear-gradient(145deg, #34d399 0%, #059669 100%)",
-              color: "#06281d",
-              fontSize: 44,
-              fontWeight: 800,
-              letterSpacing: -2,
-              boxShadow: "0 16px 40px rgba(16,185,129,0.35)",
+              borderRadius: 22,
+              background: "#FFFFFF",
             }}
           >
-            SD
+            <svg width="64" height="46" viewBox="0 0 28 20">
+              <rect {...LOGO_PATHS.bar} fill="#18181B" />
+              <path d={LOGO_PATHS.chevron} fill="#18181B" />
+              <rect {...LOGO_PATHS.underscore} fill="#10B981" />
+              <path d={LOGO_PATHS.d} fill="#18181B" fillRule="evenodd" />
+            </svg>
           </div>
           <div style={{ display: "flex", marginTop: 28, fontSize: 26 }}>
             <span style={{ color: "#FFA23E" }}>visitor@Danu.me:~$</span>

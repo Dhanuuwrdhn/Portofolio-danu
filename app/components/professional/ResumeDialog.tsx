@@ -15,11 +15,11 @@ export default function ResumeDialog({ children }: { children: React.ReactNode }
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl rounded-2xl border-zinc-200 bg-white text-zinc-900">
+      <DialogContent className="max-w-2xl rounded-[20px] border-[#E4E4E7] bg-white font-sans text-[#18181B]">
         <DialogHeader>
-          <DialogTitle>Resume</DialogTitle>
+          <DialogTitle className="text-xl font-semibold tracking-[-0.02em]">Resume</DialogTitle>
         </DialogHeader>
-        <div className="max-h-[65vh] overflow-y-auto rounded-lg border border-zinc-200">
+        <div className="max-h-[65vh] overflow-y-auto rounded-xl border border-[#E4E4E7]">
           <Image
             src={resumePreviewPath}
             alt="Syahrial Danu Wardhana — Resume preview"
@@ -32,18 +32,18 @@ export default function ResumeDialog({ children }: { children: React.ReactNode }
           <a
             href={resumePdfPath}
             download
-            className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
+            className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#18181B] px-5 text-sm font-medium text-white transition-colors hover:bg-[#3F3F46]"
           >
-            <Download className="h-4 w-4" />
+            <Download className="h-4 w-4" aria-hidden />
             Download PDF
           </a>
           <a
             href={resumePdfPath}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-900 hover:text-zinc-900"
+            className="inline-flex h-11 items-center gap-2 rounded-xl border border-[#E4E4E7] px-5 text-sm font-medium text-[#18181B] transition-colors hover:bg-[#F4F4F5]"
           >
-            <ExternalLink className="h-4 w-4" />
+            <ExternalLink className="h-4 w-4" aria-hidden />
             Open in new tab
           </a>
         </div>

@@ -4,31 +4,31 @@ import { motion } from "framer-motion";
 
 interface SectionProps {
   id: string;
-  index: string;
+  eyebrow: string;
   title: string;
-  description?: string;
+  aside?: React.ReactNode;
+  className?: string;
   children: React.ReactNode;
 }
 
-export default function Section({ id, index, title, description, children }: SectionProps) {
+export default function Section({ id, eyebrow, title, aside, className = "", children }: SectionProps) {
   return (
-    <section id={id} className="scroll-mt-20 border-t border-zinc-200 py-20 md:py-24">
+    <section id={id} className={`scroll-mt-16 border-t border-[#F4F4F5] px-5 py-14 sm:px-6 md:py-[88px] ${className}`}>
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        className="mx-auto max-w-5xl"
+        initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.42, ease: [0.2, 0.8, 0.2, 1] }}
       >
-        <div className="mb-12 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-emerald-600">
-              {index}
-            </p>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 md:text-4xl">
+            <p className="font-mono text-xs uppercase tracking-[0.08em] text-[#047857]">{eyebrow}</p>
+            <h2 className="mt-2.5 text-[28px] font-semibold leading-[1.15] tracking-[-0.03em] md:text-4xl">
               {title}
             </h2>
           </div>
-          {description && <p className="max-w-sm text-zinc-500">{description}</p>}
+          {aside}
         </div>
         {children}
       </motion.div>
@@ -51,7 +51,7 @@ export function RichText({ text, className = "" }: { text: string; className?: s
           <div key={i}>
             {prose && <p>{prose}</p>}
             {bullets.length > 0 && (
-              <ul className="mt-2 list-disc space-y-1 pl-5 marker:text-zinc-400">
+              <ul className="mt-2 list-disc space-y-1 pl-5 marker:text-[#A1A1AA]">
                 {bullets.map((bullet) => (
                   <li key={bullet}>{bullet.slice(2)}</li>
                 ))}
@@ -64,9 +64,9 @@ export function RichText({ text, className = "" }: { text: string; className?: s
   );
 }
 
-export function SkillChip({ children }: { children: React.ReactNode }) {
+export function StackChip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-md border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-700">
+    <span className="rounded-[7px] bg-[#F4F4F5] px-[9px] py-[5px] font-mono text-xs text-[#3F3F46]">
       {children}
     </span>
   );
