@@ -170,23 +170,6 @@ export const projects: Project[] = [
     imageUrl: "/photos/LogoSentralPart-Horizontal.svg",
   },
   {
-    id: 9,
-    title: "Bornworks Landing Page",
-    company: "Bornworks",
-    date: "2026-04-01",
-    description:
-      "Designed and developed a modern landing page for Bornworks, a digital product studio focused on building web apps, mobile apps, and SaaS platforms. Features a clean, conversion-focused layout with service highlights, portfolio showcase, and contact integration.",
-    skills: [
-      { id: 1, title: "Next.js" },
-      { id: 2, title: "React.js" },
-      { id: 3, title: "Tailwind CSS" },
-      { id: 4, title: "UI/UX Design" },
-    ],
-    type: "freelance",
-    link: "https://bornworks.biz.id",
-    imageUrl: "/photos/bornworks.webp",
-  },
-  {
     id: 8,
     title: "UMKM App",
     company: "PT Global Innovation Technology",
