@@ -1,18 +1,6 @@
-"use client";
+import Showcase from "@/app/components/Showcase";
 
-import { ModeProvider, useMode } from "@/app/components/ModeProvider";
-import ProfessionalMode from "@/app/components/professional/ProfessionalMode";
-import TerminalMode from "@/app/components/terminal-mode/TerminalMode";
-
-function Portfolio() {
-  const { mode } = useMode();
-  return mode === "terminal" ? <TerminalMode /> : <ProfessionalMode />;
-}
-
+// The 3D showcase is the home page. Professional/terminal modes stay in the repo, unused for now.
 export default function Home() {
-  return (
-    <ModeProvider>
-      <Portfolio />
-    </ModeProvider>
-  );
+  return <Showcase />;
 }

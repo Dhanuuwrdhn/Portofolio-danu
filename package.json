@@ -13,6 +13,7 @@
     "@radix-ui/react-scroll-area": "^1.2.3",
     "@radix-ui/react-slider": "^1.2.3",
     "@radix-ui/react-slot": "^1.1.2",
+    "@react-three/fiber": "^9.8.2",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
@@ -28,6 +29,7 @@
     "sonner": "^1.7.4",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
+    "three": "^0.187.0",
     "use-sound": "^4.0.3"
   },
   "devDependencies": {
@@ -35,6 +37,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-linkify": "^1.0.4",
+    "@types/three": "^0.187.0",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.2.1",
     "postcss": "^8.5.8",
